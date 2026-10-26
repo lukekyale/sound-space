@@ -1,0 +1,466 @@
+/* ============================================================
+   SOUND SPACE â€” STYLESHEET
+
+   01. Shared: basic page settings
+   02. Shared: SOUND animation and SPACE
+   03. Homepage: header, speaker grid, titles, hover, mobile
+   04. Article pages: fixed header and bottom navigation
+   05. Article pages: responsive type, content sizing, mobile
+   06. Author statement: images, title, rows, name, mobile order
+
+   EDITING GUIDE
+   Find a section with Command + F. Edit its existing rule rather
+   than adding another copy at the bottom.
+   Mobile rules sit at the end of the section they belong to.
+
+   Dieter Rams, Tom Sachs, SYNG, and OJAS use sections 04â€“05.
+   Their individual styles still live in their HTML <style> tags.
+   Author Statement also retains base styles in its HTML.
+   This file works with the existing HTML classes.
+   ============================================================ */
+
+/* ============================================================
+   01. SHARED â€” BASIC PAGE SETTINGS
+   ============================================================ */
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ============================================================
+   02. SHARED â€” SOUND ANIMATION AND SPACE
+   Used by the homepage and all article headers.
+   ============================================================ */
+
+.marquee {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sound {
+  display: block;
+  position: relative;
+  width: max-content;
+  white-space: nowrap;
+  animation: bounce 4s linear infinite alternate;
+}
+
+.space {
+  flex-shrink: 0;
+}
+
+/* Change 4s above to adjust the movement speed. */
+@keyframes bounce {
+  from {
+    left: 0;
+    transform: translateX(0);
+  }
+  to {
+    left: 100%;
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   03. HOMEPAGE
+   ============================================================ */
+
+/* Colors */
+.homepage {
+  background-color: #4182bb;
+  color: #8fc21c;
+}
+
+/* Moving logo and static SPACE */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  margin: 1.5vw 3.5vw;
+  font-size: clamp(24px, 6.5vw, 104px);
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+/* Desktop speaker grid â€” row-gap controls vertical spacing. */
+.homepage .speaker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 9vw;
+  row-gap: 3vw;
+  align-items: start;
+  margin: 3vw 7.5vw 2vw;
+}
+
+/* Speaker cards and images */
+.homepage .speaker-link {
+  min-width: 0;
+  text-align: center;
+  font-size: clamp(14px, 2.2vw, 35px);
+  font-weight: bold;
+  color: #8fc21c;
+  text-decoration: none;
+}
+
+.homepage .speaker-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Title spacing below each speaker */
+.homepage .speaker-link span {
+  margin-top: 1vw;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Desktop card positions */
+.homepage .dieter {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.homepage .tom {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.homepage .author {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
+.homepage .syng {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.homepage .ojas {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Brackets appear when hovering over the speaker or its title. */
+.homepage .speaker-link:hover span::before {
+  content: "(((";
+  position: absolute;
+  right: 100%;
+  padding-right: 0.3em;
+}
+
+.homepage .speaker-link:hover span::after {
+  content: ")))";
+  position: absolute;
+  left: 100%;
+  padding-left: 0.3em;
+}
+
+/* Homepage mobile â€” stack speakers in their HTML order. */
+@media (max-width: 600px) {
+  .homepage .speaker-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 40px;
+    margin: 35px 10vw;
+  }
+
+  .homepage .speaker-grid .speaker-link {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
+    max-width: 300px;
+    justify-self: center;
+    font-size: clamp(18px, 5vw, 24px);
+  }
+}
+
+/* ============================================================
+   04. ARTICLE PAGES â€” HEADER AND NAVIGATION
+   Dieter Rams / Tom Sachs / SYNG / OJAS / Author Statement
+   ============================================================ */
+
+/* Fixed transparent header over the scrolling content */
+.content-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  padding: 1.5vw 3.5vw;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(24px, 6.5vw, 104px);
+  font-weight: bold;
+  line-height: 1.1;
+  color: #8fc21c;
+  background: transparent;
+  pointer-events: none;
+}
+
+.content-header .marquee {
+  width: auto;
+  margin: 0;
+}
+
+/* Make both logo links clickable. */
+.content-header .sound,
+.content-header .space {
+  color: #8fc21c;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+/* Fixed bottom navigation */
+.content-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 4%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(12px, 1.8vw, 28px);
+  font-weight: bold;
+  line-height: 1.2;
+  background: transparent;
+}
+
+.content-nav a {
+  color: #8fc21c;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.content-nav a span {
+  display: inline-block;
+  position: relative;
+}
+
+/* Brackets on hover AND on the current page's link. */
+.content-nav a:hover span::before,
+.content-nav a[aria-current="page"] span::before {
+  content: "(((";
+  position: absolute;
+  right: 100%;
+  padding-right: 0.3em;
+}
+
+.content-nav a:hover span::after,
+.content-nav a[aria-current="page"] span::after {
+  content: ")))";
+  position: absolute;
+  left: 100%;
+  padding-left: 0.3em;
+}
+
+/* Navigation mobile â€” wrap links onto additional lines. */
+@media (max-width: 700px) {
+  .content-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75em 3em;
+    padding: 16px 8%;
+  }
+}
+
+/* ============================================================
+   05. ARTICLE PAGES â€” TYPE AND CONTENT SIZING
+   Shared defaults; page-specific rules follow in section 06.
+   ============================================================ */
+
+body:not(.homepage) {
+  font-size: clamp(16px, 0.9rem + 0.3vw, 20px);
+}
+
+body:not(.homepage) h1 {
+  font-size: clamp(32px, 1rem + 3.5vw, 64px);
+}
+
+body:not(.homepage) h2 {
+  font-size: clamp(12px, 0.65rem + 0.3vw, 16px);
+}
+
+body:not(.homepage) h3 {
+  font-size: clamp(14px, 0.75rem + 0.35vw, 20px);
+}
+
+body:not(.homepage) p,
+body:not(.homepage) li {
+  font-size: clamp(15px, 0.85rem + 0.3vw, 19px);
+}
+
+/* Keep content boxes within the page width. */
+body:not(.homepage) > div,
+body:not(.homepage) h1,
+body:not(.homepage) h2,
+body:not(.homepage) h3,
+body:not(.homepage) p,
+body:not(.homepage) ol {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+body:not(.homepage) img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Article mobile â€” margins, wrapping, and space for navigation. */
+@media (max-width: 700px) {
+  body:not(.homepage) {
+    margin-left: 6vw;
+    margin-right: 6vw;
+    padding-bottom: 120px;
+  }
+
+  body:not(.homepage) p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  body:not(.homepage) h1 {
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+  }
+
+  body:not(.homepage) img {
+    float: none;
+    margin-right: 0;
+  }
+}
+
+/* ============================================================
+   06. AUTHOR STATEMENT
+   ============================================================ */
+
+/* Full-width opening and closing images */
+body img.hero-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  float: none;
+  margin: 0 0 30px;
+}
+
+/* Main title â€” size and space before the article */
+body:not(.homepage) h1.author-title {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(24px, 4.6vw, 90px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  white-space: normal;
+  overflow-wrap: break-word;
+  margin-bottom: clamp(40px, 5vw, 80px);
+}
+
+/* Two-column rows â€” HTML order decides which side the image uses. */
+body .intro-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 4vw;
+  width: 100%;
+  margin-bottom: 70px;
+}
+
+/* Single paragraphs and grouped paragraphs beside an image */
+body .intro-row > p,
+body .intro-row .row-text > p {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body .intro-row .row-text {
+  min-width: 0;
+}
+
+body .intro-row .row-text > p + p {
+  margin-top: 24px;
+}
+
+body .intro-row > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+/* Final paragraph â€” its text must be inside <p class="closing-text">. */
+body p.closing-text {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Author name â€” right aligned, no box, close to the final paragraph. */
+body h2.author-name {
+  border: none;
+  font-size: clamp(8px, 2vw, 90px);
+  padding: 0;
+  width: 100%;
+  text-align: right;
+  margin: 16px 0 100px;
+}
+
+/* Author Statement mobile */
+@media (max-width: 700px) {
+  body:not(.homepage) h1.author-title {
+    font-size: clamp(28px, 6vw, 42px);
+  }
+
+  /* Stack image/text rows and reduce section spacing. */
+  body .intro-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  /* USM: both paragraphs before the image. */
+  body .usm-row > .row-text {
+    order: 1;
+  }
+
+  body .usm-row > img {
+    order: 2;
+  }
+
+  /* Rick Owens: first paragraph, image, second paragraph.
+     display: contents lets the paragraphs become grid items. */
+  body .rick-row > .row-text {
+    display: contents;
+  }
+
+  body .rick-row .row-text > p:first-child {
+    order: 0;
+  }
+
+  body .rick-row > img {
+    order: 1;
+  }
+
+  body .rick-row .row-text > p:last-child {
+    order: 2;
+    margin: 0;
+  }
+}
